@@ -1,0 +1,6 @@
+package galois
+
+
+class IndexKeySpec {
+
+}
