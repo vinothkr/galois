@@ -4,8 +4,8 @@ lazy val root = (project in file(".")).
     scalaVersion := "2.11.8"
   )
 
-
-libraryDependencies += "org.apache.kafka" % "kafka-clients" % "0.10.0.0"
+val kafka = "org.apache.kafka" % "kafka-clients" % "0.10.0.0"
+libraryDependencies += kafka
 
 libraryDependencies += "com.twitter" %% "algebird-core" % "0.12.1"
 
@@ -21,7 +21,6 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.0" % Test
 
 libraryDependencies += "org.mockito" % "mockito-all" % "1.10.19" % Test
 
-
-
-
-
+assemblyShadeRules in assembly := Seq(
+  ShadeRule.rename("org.apache.kafka.**" -> "galois.kafka.@1").inLibrary(kafka)
+)
