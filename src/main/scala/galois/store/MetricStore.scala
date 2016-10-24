@@ -2,9 +2,10 @@ package galois.store
 
 import galois.{Average, Key, IndexKey, Metric}
 
+
 case class MetricRequest(name: String, tags: Iterable[String], startTime: Option[Long], endTime: Option[Long]) {
-  def startKey = name + "$" + tags.mkString("$") + "$" + startTime.map(_.toString).getOrElse("")
-  def endKey = name + "$" + tags.mkString("$") + "$" + endTime.map(_.toString).getOrElse("")
+  def startKey = (name :: tags.toList).mkString("$") + "$" + startTime.map(_.toString).getOrElse("")
+  def endKey = (name :: tags.toList).mkString("$") + "$" + endTime.map(_.toString).getOrElse("") + "~"
 }
 
 class MetricStore(store: Store[Metric.Any]) {
