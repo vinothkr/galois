@@ -16,7 +16,7 @@ class GaloisClient(producer: KafkaProducer[Long, Metric.Any], config: GaloisConf
 object GaloisClient {
   def apply(config: GaloisConfig) = {
     lazy val props = new Properties() {
-      put("bootstrap.servers", "localhost:9092")
+      put("bootstrap.servers", config.bootstrap)
       put("acks", "all")
     }
     val producer = new KafkaProducer[Long, Metric.Any](props, serializer(kryoInjection[Long]), serializer(kryoInjection[Metric.Any]))

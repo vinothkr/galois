@@ -15,7 +15,13 @@ libraryDependencies += "com.twitter" %% "chill-bijection" % "0.8.0"
 
 libraryDependencies += "com.google.inject" % "guice" % "4.1.0"
 
-libraryDependencies += "com.typesafe.akka" %% "akka-http-core" % "2.4.10"
+libraryDependencies += "com.typesafe.akka" %% "akka-http-core" % "2.4.7"
+
+libraryDependencies += "com.typesafe.akka" %% "akka-http-experimental" % "2.4.7"
+
+libraryDependencies += "com.typesafe.akka" %% "akka-http-spray-json-experimental" % "2.4.7"
+
+libraryDependencies += "com.fasterxml.jackson.module" % "jackson-module-scala_2.10" % "2.8.3"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.0" % Test
 

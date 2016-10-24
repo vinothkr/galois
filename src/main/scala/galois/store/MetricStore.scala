@@ -1,7 +1,11 @@
 package galois.store
 
-import galois.{IndexKey, Metric}
+import galois.{Average, Key, IndexKey, Metric}
 
+case class MetricRequest(name: String, tags: Iterable[String], startTime: Option[Long], endTime: Option[Long]) {
+  def startKey = name + "$" + tags.mkString("$") + "$" + startTime.map(_.toString).getOrElse("")
+  def endKey = name + "$" + tags.mkString("$") + "$" + endTime.map(_.toString).getOrElse("")
+}
 
 class MetricStore(store: Store[Metric.Any]) {
 
@@ -15,5 +19,14 @@ class MetricStore(store: Store[Metric.Any]) {
       else batch = (indexKey -> metric) :: batch
     }
     store.batchPut(Batch(batch))
+  }
+
+  def metricFor(request: MetricRequest): List[Metric[_,_]] = {
+    store.scan(request.startKey, request.endKey)
+      .map(_._2)
+      .toList
+      .groupBy(_.key)
+      .map{case (key, values) => values.reduce(_ merge _)}
+      .toList
   }
 }
