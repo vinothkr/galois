@@ -1,7 +1,7 @@
 package galois
 
 import galois.Metric.Any
-import org.apache.kafka.clients.producer.{ProducerRecord, KafkaProducer}
+import org.apache.kafka.clients.producer.{Callback, ProducerRecord, KafkaProducer}
 import org.mockito.ArgumentCaptor
 import org.mockito.Mockito._
 import org.scalatest.FlatSpec
@@ -16,7 +16,8 @@ class GaloisClientSpec extends FlatSpec {
     client.send(metric)
 
     val captor = ArgumentCaptor.forClass(classOf[ProducerRecord[Long, Any]])
-    verify(producer).send(captor.capture())
+    val callbackCaptor = ArgumentCaptor.forClass(classOf[Callback])
+    verify(producer).send(captor.capture(), callbackCaptor.capture())
 
     captor.getValue.topic() should be("galois")
     captor.getValue.key() should be(0)
