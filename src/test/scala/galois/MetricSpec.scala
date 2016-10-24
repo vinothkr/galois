@@ -1,5 +1,6 @@
 package galois
 
+import galois.aggregates.{Average, Count}
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers._
 

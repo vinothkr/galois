@@ -9,6 +9,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import com.typesafe.config.{ConfigFactory, Config}
+import galois.aggregates.Average
 
 import galois.serde.SerDe._
 import galois.store.{MetricRequest, MetricStore, RocksStore}

@@ -1,5 +1,7 @@
 package galois
 
+import galois.aggregates.Aggregate
+
 case class Key(name:String, tags:List[String] = List.empty, time:Long = 0)
 
 case class Metric[T <: Aggregate[T,K], K] (key: Key, value: T with Aggregate[T, K]) {

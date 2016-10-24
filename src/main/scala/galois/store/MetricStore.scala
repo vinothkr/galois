@@ -1,6 +1,6 @@
 package galois.store
 
-import galois.{Average, Key, IndexKey, Metric}
+import galois.{Key, IndexKey, Metric}
 
 
 case class MetricRequest(name: String, tags: Iterable[String], startTime: Option[Long], endTime: Option[Long]) {

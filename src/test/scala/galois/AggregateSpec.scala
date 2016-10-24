@@ -1,5 +1,6 @@
 package galois
 
+import galois.aggregates._
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers._
 

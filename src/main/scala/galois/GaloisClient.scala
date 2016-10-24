@@ -2,6 +2,7 @@ package galois
 
 import java.util.Properties
 
+import galois.aggregates.Aggregate
 import galois.serde.SerDe._
 import org.apache.kafka.clients.producer.{RecordMetadata, Callback, KafkaProducer, ProducerRecord}
 

@@ -1,6 +1,7 @@
 package galois.store
 
-import galois.{Average, Key, Metric}
+import galois.aggregates.Average
+import galois.{Key, Metric}
 import org.scalatest.FlatSpec
 import org.mockito.Mockito._
 
