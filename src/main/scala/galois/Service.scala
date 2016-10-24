@@ -48,9 +48,7 @@ object Service {
     val metricStore: MetricStore = new MetricStore(store)
     val indexer = new Indexer(metricStore, consumer, UUID.randomUUID().toString)
     new Thread(indexer).start()
-
-    GaloisClient(GaloisConfig(settings.bootstrap, settings.topic, 10)).send(Metric(Key("test"), Average(10)))
-
+    
     Http().bindAndHandle(Route.handlerFlow(routes(metricStore)), settings.host, settings.port)
   }
   
