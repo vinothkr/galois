@@ -43,7 +43,7 @@ object Service {
       put("auto.offset.reset", "earliest")
     }
 
-    val consumer = new KafkaConsumer(options, deserializer(kryoInjection[Long]), deserializer(kryoInjection[Metric.Any]))
+    val consumer = new KafkaConsumer(options, deserializer(kryoInjection[String]), deserializer(kryoInjection[Metric.Any]))
     consumer.subscribe(util.Arrays.asList(settings.topic))
 
     val metricStore: MetricStore = new MetricStore(store)

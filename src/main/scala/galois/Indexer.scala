@@ -26,7 +26,7 @@ object IndexKey {
 }
 
 class Indexer(store: MetricStore,
-              consumer: KafkaConsumer[Long, Metric.Any],
+              consumer: KafkaConsumer[String, Metric.Any],
               partition: String) extends Runnable {
 
   override def run() = try {
@@ -37,7 +37,7 @@ class Indexer(store: MetricStore,
 
   @tailrec
   private final def process: Unit = {
-    val records: ConsumerRecords[Long, Metric.Any] = consumer.poll(Int.MaxValue)
+    val records: ConsumerRecords[String, Metric.Any] = consumer.poll(Int.MaxValue)
     var metrics: Map[Key, Metric.Any] = Map.empty
 
     for (record <- records) {
