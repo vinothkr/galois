@@ -1,7 +1,7 @@
 import sbt.Keys._
 import sbtassembly.AssemblyPlugin.autoImport._
 
-val publishClientAssembly = sys.env.getOrElse("PUBLISH_CLIENT_ASSEMBLY", "true").toBoolean
+val publishClientAssembly = sys.env.getOrElse("PUBLISH_CLIENT_ASSEMBLY", "false").toBoolean
 
 lazy val root = (project in file(".")).
   settings(
