@@ -9,7 +9,7 @@ import org.scalatest.Matchers._
 
 class GaloisClientSpec extends FlatSpec {
   val producer = mock(classOf[KafkaProducer[String, Any]])
-  val client: GaloisClient = new GaloisClient(producer, GaloisConfig("localhost:9091","galois",1))
+  val client: GaloisClient = new GaloisClient(producer, GaloisConfig("localhost:9091","galois"))
 
   "Client" should "produce a producer record with the given metric" in {
     val metric = mock(classOf[Any])

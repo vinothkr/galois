@@ -7,7 +7,7 @@ import galois.aggregates.Aggregate
 import galois.serde.SerDe._
 import org.apache.kafka.clients.producer.{Callback, KafkaProducer, ProducerRecord, RecordMetadata}
 
-case class GaloisConfig(bootstrap: String, topic: String, noOfPartitions: Int = 1)
+case class GaloisConfig(bootstrap: String, topic: String)
 
 class GaloisClient(producer: KafkaProducer[String, Metric.Any], config: GaloisConfig) {
   val hostName = InetAddress.getLocalHost.getCanonicalHostName
@@ -19,7 +19,7 @@ class GaloisClient(producer: KafkaProducer[String, Metric.Any], config: GaloisCo
     })
   }
 
-  def flush = producer.flush()
+  def flush() = producer.flush()
 }
 
 object GaloisClient {
