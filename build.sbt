@@ -85,7 +85,7 @@ lazy val clientAssemblySettings = if (publishClientAssembly) {
       }
     },
     assemblyShadeRules in assembly := Seq(
-      ShadeRule.rename("org.apache.kafka.**" -> "galois.kafka.@1").inLibrary(kafka).inAll
+      ShadeRule.rename("org.apache.kafka.**" -> "galois.kafka.@1").inLibrary(kafka).inProject.inAll
     ),
     assemblyOption in assembly := (assemblyOption in assembly).value,
     artifact in(Compile, assembly) := {
