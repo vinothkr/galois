@@ -86,7 +86,7 @@ lazy val clientAssemblySettings = if (publishClientAssembly) {
     assemblyShadeRules in assembly := Seq(
       ShadeRule.rename("org.apache.kafka.**" -> "galois.kafka.@1").inLibrary(kafka).inAll
     ),
-    assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false),
+    assemblyOption in assembly := (assemblyOption in assembly).value,
     artifact in(Compile, assembly) := {
       val art = (artifact in(Compile, assembly)).value
       art.copy(`classifier` = Some("assembly"))
