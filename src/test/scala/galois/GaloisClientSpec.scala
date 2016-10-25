@@ -20,7 +20,6 @@ class GaloisClientSpec extends FlatSpec {
     verify(producer).send(captor.capture(), callbackCaptor.capture())
 
     captor.getValue.topic() should be("galois")
-    captor.getValue.key() should be(0)
     captor.getValue.value() should be(metric)
   }
 }
