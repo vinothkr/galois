@@ -1,10 +1,16 @@
+import sbt.Keys._
+import sbtassembly.AssemblyPlugin.autoImport._
+
+val publishClientAssembly = sys.env.getOrElse("PUBLISH_CLIENT_ASSEMBLY", "true").toBoolean
+
 lazy val root = (project in file(".")).
   settings(
     organization := "in.ashwanthkumar",
     name := "galois",
     scalaVersion := "2.11.8"
   ).
-  settings(publishSettings: _*)
+  settings(publishSettings: _*).
+  settings(clientAssemblySettings: _*)
 
 val kafka = "org.apache.kafka" % "kafka-clients" % "0.10.0.0"
 libraryDependencies += kafka
@@ -28,17 +34,6 @@ libraryDependencies += "com.fasterxml.jackson.module" % "jackson-module-scala_2.
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.0" % Test
 
 libraryDependencies += "org.mockito" % "mockito-all" % "1.10.19" % Test
-
-assemblyShadeRules in assembly := Seq(
-  ShadeRule.rename("org.apache.kafka.**" -> "galois.kafka.@1").inLibrary(kafka)
-)
-
-assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false)
-
-artifact in(Compile, assembly) := {
-  val art = (artifact in(Compile, assembly)).value
-  art.copy(`classifier` = Some("assembly"))
-}
 
 val _pomExtra =
   <url>http://github.com/vinothkr/galois</url>
@@ -76,3 +71,25 @@ lazy val publishSettings = Seq(
   pomExtra := _pomExtra,
   addArtifact(artifact in(Compile, assembly), assembly)
 )
+
+lazy val clientAssemblySettings = if (publishClientAssembly) {
+  Seq(
+    // hackery to include only specific jars
+    // since assembly doesn't provide a way to specifically include jars - we have to resort to this
+    assemblyExcludedJars in assembly := {
+      val includedJars = List("kafka-clients")
+      val cp = (fullClasspath in assembly).value
+      cp filterNot { path =>
+        includedJars.exists(path.data.getName.startsWith)
+      }
+    },
+    assemblyShadeRules in assembly := Seq(
+      ShadeRule.rename("org.apache.kafka.**" -> "galois.kafka.@1").inLibrary(kafka).inAll
+    ),
+    assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false),
+    artifact in(Compile, assembly) := {
+      val art = (artifact in(Compile, assembly)).value
+      art.copy(`classifier` = Some("assembly"))
+    }
+  )
+} else Seq()
